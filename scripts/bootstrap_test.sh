@@ -1,7 +1,5 @@
 #!/bin/bash
 
-make build
-
 export VAULT_ADDR="http://127.0.0.1:8200"
 
 SHASUM=$(shasum -a 256 build/plugins/vault-plugin-secrets-solana | cut -d ' ' -f1)

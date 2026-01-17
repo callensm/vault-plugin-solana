@@ -14,6 +14,10 @@ func pathMessage(s *SolanaBackend) []*framework.Path {
 		{
 			Pattern: "wallet/" + framework.GenericNameRegex("id") + "/message/sign",
 			Fields: map[string]*framework.FieldSchema{
+				"id": {
+					Type:        framework.TypeString,
+					Description: "Unique identifier of the wallet keypair",
+				},
 				"message": {
 					Type:        framework.TypeString,
 					Description: "The base-64 encoded message to be signed by the wallet",
@@ -30,6 +34,10 @@ func pathMessage(s *SolanaBackend) []*framework.Path {
 		{
 			Pattern: "wallet/" + framework.GenericNameRegex("id") + "/message/verify",
 			Fields: map[string]*framework.FieldSchema{
+				"id": {
+					Type:        framework.TypeString,
+					Description: "Unique identifier for the wallet keypair",
+				},
 				"message": {
 					Type:        framework.TypeString,
 					Description: "The base-64 encoded message to be signed by the wallet",
