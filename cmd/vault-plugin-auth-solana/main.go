@@ -3,10 +3,11 @@ package main
 import (
 	"os"
 
-	"github.com/callensm/vault-plugin-solana"
 	"github.com/hashicorp/go-hclog"
 	"github.com/hashicorp/vault/api"
 	"github.com/hashicorp/vault/sdk/plugin"
+
+	"github.com/callensm/vault-plugin-solana"
 )
 
 func main() {
@@ -18,13 +19,13 @@ func main() {
 	tlsProviderFunc := api.VaultPluginTLSProvider(tlsConfig)
 
 	err := plugin.Serve(&plugin.ServeOpts{
-		BackendFactoryFunc: solana.Factory,
+		BackendFactoryFunc: solana.AuthFactory,
 		TLSProviderFunc:    tlsProviderFunc,
 	})
 
 	if err != nil {
 		logger := hclog.New(&hclog.LoggerOptions{})
-		logger.Error("plugin shutting down", "error", err)
+		logger.Error("solana auth plugin shutting down", "error", err)
 		os.Exit(1)
 	}
 }

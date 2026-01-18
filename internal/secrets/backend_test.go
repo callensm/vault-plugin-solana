@@ -1,4 +1,4 @@
-package backend
+package secrets
 
 import (
 	"context"
@@ -8,7 +8,7 @@ import (
 	"github.com/hashicorp/vault/sdk/logical"
 )
 
-func getTestBackend(tb testing.TB) (*SolanaBackend, logical.Storage) {
+func getTestBackend(tb testing.TB) (*SolanaSecretsBackend, logical.Storage) {
 	tb.Helper()
 
 	config := logical.TestBackendConfig()
@@ -16,10 +16,10 @@ func getTestBackend(tb testing.TB) (*SolanaBackend, logical.Storage) {
 	config.Logger = hclog.NewNullLogger()
 	config.System = logical.TestSystemView()
 
-	b, err := InternalFactory(context.Background(), config)
+	b, err := Factory(context.Background(), config)
 	if err != nil {
 		tb.Fatal(err)
 	}
 
-	return b.(*SolanaBackend), config.StorageView
+	return b.(*SolanaSecretsBackend), config.StorageView
 }

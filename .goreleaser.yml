@@ -13,25 +13,14 @@ builds:
     flags:
       - -trimpath
     ldflags:
-      - -s -w -X main.version={{.Version}} -X main.commit={{.Commit}} -X main.date={{.Date}}
+      - -s -w -X version.Version={{.Version}} -X version.Commit={{.Commit}}
     goos:
-      - freebsd
-      - windows
       - linux
       - darwin
     goarch:
       - amd64
       - arm64
       - arm
-    ignore:
-      - goos: windows
-        goarch: arm
-      - goos: windows
-        goarch: arm64
-      - goos: freebsd
-        goarch: arm
-      - goos: freebsd
-        goarch: arm64
 
 archives:
   - id: vault-plugin-solana

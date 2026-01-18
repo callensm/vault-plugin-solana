@@ -3,10 +3,16 @@ package solana
 import (
 	"context"
 
-	"github.com/callensm/vault-plugin-solana/internal/backend"
 	"github.com/hashicorp/vault/sdk/logical"
+
+	"github.com/callensm/vault-plugin-solana/internal/auth"
+	"github.com/callensm/vault-plugin-solana/internal/secrets"
 )
 
-func Factory(ctx context.Context, conf *logical.BackendConfig) (logical.Backend, error) {
-	return backend.InternalFactory(ctx, conf)
+func AuthFactory(ctx context.Context, conf *logical.BackendConfig) (logical.Backend, error) {
+	return auth.Factory(ctx, conf)
+}
+
+func SecretsFactory(ctx context.Context, conf *logical.BackendConfig) (logical.Backend, error) {
+	return secrets.Factory(ctx, conf)
 }

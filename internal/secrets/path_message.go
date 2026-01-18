@@ -1,4 +1,4 @@
-package backend
+package secrets
 
 import (
 	"context"
@@ -9,7 +9,7 @@ import (
 	"github.com/hashicorp/vault/sdk/logical"
 )
 
-func pathMessage(s *SolanaBackend) []*framework.Path {
+func pathMessage(s *SolanaSecretsBackend) []*framework.Path {
 	return []*framework.Path{
 		{
 			Pattern: "wallet/" + framework.GenericNameRegex("id") + "/message/sign",
@@ -59,7 +59,7 @@ func pathMessage(s *SolanaBackend) []*framework.Path {
 	}
 }
 
-func (s *SolanaBackend) pathWalletSignMessage(ctx context.Context, req *logical.Request, data *framework.FieldData) (*logical.Response, error) {
+func (s *SolanaSecretsBackend) pathWalletSignMessage(ctx context.Context, req *logical.Request, data *framework.FieldData) (*logical.Response, error) {
 	id := data.Get("id").(string)
 	if id == "" {
 		return logical.ErrorResponse("missing wallet id"), nil
@@ -101,7 +101,7 @@ func (s *SolanaBackend) pathWalletSignMessage(ctx context.Context, req *logical.
 	}, nil
 }
 
-func (s *SolanaBackend) pathWalletVerifyMessageSignature(ctx context.Context, req *logical.Request, data *framework.FieldData) (*logical.Response, error) {
+func (s *SolanaSecretsBackend) pathWalletVerifyMessageSignature(ctx context.Context, req *logical.Request, data *framework.FieldData) (*logical.Response, error) {
 	id := data.Get("id").(string)
 	if id == "" {
 		return logical.ErrorResponse("missing wallet id"), nil

@@ -1,4 +1,4 @@
-package backend
+package secrets
 
 import (
 	"context"
@@ -9,7 +9,7 @@ import (
 	"github.com/hashicorp/vault/sdk/logical"
 )
 
-func pathWallet(s *SolanaBackend) []*framework.Path {
+func pathWallet(s *SolanaSecretsBackend) []*framework.Path {
 	return []*framework.Path{
 		{
 			Pattern: "wallet/" + framework.GenericNameRegex("id"),
@@ -62,7 +62,7 @@ func pathWallet(s *SolanaBackend) []*framework.Path {
 	}
 }
 
-func (s *SolanaBackend) pathWalletDelete(ctx context.Context, req *logical.Request, data *framework.FieldData) (*logical.Response, error) {
+func (s *SolanaSecretsBackend) pathWalletDelete(ctx context.Context, req *logical.Request, data *framework.FieldData) (*logical.Response, error) {
 	id := data.Get("id").(string)
 	if id == "" {
 		return logical.ErrorResponse("missing wallet id"), nil
@@ -75,7 +75,7 @@ func (s *SolanaBackend) pathWalletDelete(ctx context.Context, req *logical.Reque
 	return nil, nil
 }
 
-func (s *SolanaBackend) pathWalletExistenceCheck(ctx context.Context, req *logical.Request, data *framework.FieldData) (bool, error) {
+func (s *SolanaSecretsBackend) pathWalletExistenceCheck(ctx context.Context, req *logical.Request, data *framework.FieldData) (bool, error) {
 	id := data.Get("id").(string)
 	entry, err := s.getWallet(ctx, req.Storage, id)
 	if err != nil {
@@ -84,7 +84,7 @@ func (s *SolanaBackend) pathWalletExistenceCheck(ctx context.Context, req *logic
 	return entry != nil, nil
 }
 
-func (s *SolanaBackend) pathWalletRead(ctx context.Context, req *logical.Request, data *framework.FieldData) (*logical.Response, error) {
+func (s *SolanaSecretsBackend) pathWalletRead(ctx context.Context, req *logical.Request, data *framework.FieldData) (*logical.Response, error) {
 	id := data.Get("id").(string)
 	if id == "" {
 		return logical.ErrorResponse("missing wallet id"), nil
@@ -107,7 +107,7 @@ func (s *SolanaBackend) pathWalletRead(ctx context.Context, req *logical.Request
 	}, nil
 }
 
-func (s *SolanaBackend) pathWalletList(ctx context.Context, req *logical.Request, _ *framework.FieldData) (*logical.Response, error) {
+func (s *SolanaSecretsBackend) pathWalletList(ctx context.Context, req *logical.Request, _ *framework.FieldData) (*logical.Response, error) {
 	entries, err := req.Storage.List(ctx, "wallet/")
 	if err != nil {
 		return nil, err
@@ -116,7 +116,7 @@ func (s *SolanaBackend) pathWalletList(ctx context.Context, req *logical.Request
 	return logical.ListResponse(entries), nil
 }
 
-func (s *SolanaBackend) pathWalletPublicRead(ctx context.Context, req *logical.Request, data *framework.FieldData) (*logical.Response, error) {
+func (s *SolanaSecretsBackend) pathWalletPublicRead(ctx context.Context, req *logical.Request, data *framework.FieldData) (*logical.Response, error) {
 	id := data.Get("id").(string)
 	if id == "" {
 		return logical.ErrorResponse("missing wallet id"), nil
@@ -138,7 +138,7 @@ func (s *SolanaBackend) pathWalletPublicRead(ctx context.Context, req *logical.R
 	}, nil
 }
 
-func (s *SolanaBackend) pathWalletWrite(ctx context.Context, req *logical.Request, data *framework.FieldData) (*logical.Response, error) {
+func (s *SolanaSecretsBackend) pathWalletWrite(ctx context.Context, req *logical.Request, data *framework.FieldData) (*logical.Response, error) {
 	id := data.Get("id").(string)
 	if id == "" {
 		return logical.ErrorResponse("missing wallet id"), nil
@@ -170,7 +170,6 @@ func (s *SolanaBackend) pathWalletWrite(ctx context.Context, req *logical.Reques
 	return &logical.Response{
 		Data: map[string]any{
 			"public_key": entry.PublicKey,
-			"message":    "Wallet created successfully. Private key is securely stored.",
 		},
 	}, nil
 }

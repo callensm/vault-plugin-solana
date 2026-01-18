@@ -1,4 +1,4 @@
-package backend
+package secrets
 
 import (
 	"context"
@@ -6,8 +6,8 @@ import (
 	"github.com/hashicorp/vault/sdk/logical"
 )
 
-func InternalFactory(ctx context.Context, conf *logical.BackendConfig) (logical.Backend, error) {
-	b := newSolanaBackend()
+func Factory(ctx context.Context, conf *logical.BackendConfig) (logical.Backend, error) {
+	b := newSolanaSecretsBackend()
 	if err := b.Setup(ctx, conf); err != nil {
 		return nil, err
 	}

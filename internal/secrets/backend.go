@@ -1,11 +1,14 @@
-package backend
+package secrets
 
 import (
 	"context"
+	"fmt"
 	"strings"
 
 	"github.com/hashicorp/vault/sdk/framework"
 	"github.com/hashicorp/vault/sdk/logical"
+
+	"github.com/callensm/vault-plugin-solana/version"
 )
 
 const (
@@ -15,17 +18,17 @@ creation, access, and management of wallet keypair material.
 `
 )
 
-type SolanaBackend struct {
-	*framework.Backend
-}
-
 type WalletEntry struct {
 	PrivateKey string `json:"private_key"`
 	PublicKey  string `json:"public_key"`
 }
 
-func newSolanaBackend() *SolanaBackend {
-	var s = SolanaBackend{}
+type SolanaSecretsBackend struct {
+	*framework.Backend
+}
+
+func newSolanaSecretsBackend() *SolanaSecretsBackend {
+	var s = SolanaSecretsBackend{}
 	s.Backend = &framework.Backend{
 		Help: strings.TrimSpace(backendHelp),
 		PathsSpecial: &logical.Paths{
@@ -38,13 +41,14 @@ func newSolanaBackend() *SolanaBackend {
 			pathMessage(&s),
 			pathWallet(&s),
 		),
-		Secrets:     []*framework.Secret{},
-		BackendType: logical.TypeLogical,
+		Secrets:        []*framework.Secret{},
+		BackendType:    logical.TypeLogical,
+		RunningVersion: fmt.Sprintf("v%s", version.Version),
 	}
 	return &s
 }
 
-func (s *SolanaBackend) getWallet(ctx context.Context, store logical.Storage, id string) (*WalletEntry, error) {
+func (s *SolanaSecretsBackend) getWallet(ctx context.Context, store logical.Storage, id string) (*WalletEntry, error) {
 	entry, err := store.Get(ctx, "wallet/"+id)
 	if err != nil {
 		return nil, err
@@ -62,7 +66,7 @@ func (s *SolanaBackend) getWallet(ctx context.Context, store logical.Storage, id
 	return &wallet, nil
 }
 
-func (s *SolanaBackend) setWallet(ctx context.Context, store logical.Storage, id string, w *WalletEntry) error {
+func (s *SolanaSecretsBackend) setWallet(ctx context.Context, store logical.Storage, id string, w *WalletEntry) error {
 	entry, err := logical.StorageEntryJSON("wallet/"+id, w)
 	if err != nil {
 		return err
