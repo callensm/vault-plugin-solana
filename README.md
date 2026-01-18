@@ -1,3 +1,3 @@
-# vault-plugin-secrets-solana
+# vault-plugin-solana
 
 TODO

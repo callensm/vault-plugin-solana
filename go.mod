@@ -1,4 +1,4 @@
-module github.com/callensm/vault-plugin-secrets-solana
+module github.com/callensm/vault-plugin-solana
 
 go 1.25.0
 

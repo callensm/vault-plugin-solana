@@ -1,5 +1,5 @@
 build: clean
-	go build -o build/plugins/vault-plugin-secrets-solana cmd/vault-plugin-secrets-solana/main.go
+	go build -o build/plugins/vault-plugin-solana cmd/vault-plugin-solana/main.go
 
 clean:
 	rm -rf build/ vendor/

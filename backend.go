@@ -1,9 +1,9 @@
-package backend
+package solana
 
 import (
 	"context"
 
-	"github.com/callensm/vault-plugin-secrets-solana/internal/backend"
+	"github.com/callensm/vault-plugin-solana/internal/backend"
 	"github.com/hashicorp/vault/sdk/logical"
 )
 

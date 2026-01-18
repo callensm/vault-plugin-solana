@@ -3,7 +3,7 @@ package main
 import (
 	"os"
 
-	"github.com/callensm/vault-plugin-secrets-solana"
+	"github.com/callensm/vault-plugin-solana"
 	"github.com/hashicorp/go-hclog"
 	"github.com/hashicorp/vault/api"
 	"github.com/hashicorp/vault/sdk/plugin"
@@ -18,7 +18,7 @@ func main() {
 	tlsProviderFunc := api.VaultPluginTLSProvider(tlsConfig)
 
 	err := plugin.Serve(&plugin.ServeOpts{
-		BackendFactoryFunc: backend.Factory,
+		BackendFactoryFunc: solana.Factory,
 		TLSProviderFunc:    tlsProviderFunc,
 	})
 
