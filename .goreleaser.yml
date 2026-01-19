@@ -5,9 +5,25 @@ before:
     - go mod tidy
 
 builds:
-  - id: vault-plugin-solana
-    main: ./cmd/vault-plugin-solana
-    binary: vault-plugin-solana
+  - id: auth
+    main: ./cmd/vault-plugin-auth-solana
+    binary: vault-plugin-auth-solana
+    env:
+      - CGO_ENABLED=0
+    flags:
+      - -trimpath
+    ldflags:
+      - -s -w -X version.Version={{.Version}} -X version.Commit={{.Commit}}
+    goos:
+      - linux
+      - darwin
+    goarch:
+      - amd64
+      - arm64
+      - arm
+  - id: secrets
+    main: ./cmd/vault-plugin-secrets-solana
+    binary: vault-plugin-secrets-solana
     env:
       - CGO_ENABLED=0
     flags:
@@ -22,9 +38,10 @@ builds:
       - arm64
       - arm
 
+
 archives:
   - id: vault-plugin-solana
-    ids: [vault-plugin-solana]
+    ids: [auth, secrets]
     formats: ['zip']
     name_template: >-
       {{ .ProjectName }}_
