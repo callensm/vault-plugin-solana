@@ -18,6 +18,10 @@ func pathWallet(s *SolanaSecretsBackend) []*framework.Path {
 					Type:        framework.TypeString,
 					Description: "Unique identifier for the wallet keypair",
 				},
+				"private_key": {
+					Type:        framework.TypeString,
+					Description: "Base-58 encoded private key to be imported instead of generating a new random keypair",
+				},
 			},
 			Operations: map[logical.Operation]framework.OperationHandler{
 				logical.CreateOperation: &framework.PathOperation{
@@ -144,6 +148,8 @@ func (s *SolanaSecretsBackend) pathWalletWrite(ctx context.Context, req *logical
 		return logical.ErrorResponse("missing wallet id"), nil
 	}
 
+	privateKey, ok := data.GetOk("private_key")
+
 	exists, err := s.pathWalletExistenceCheck(ctx, req, data)
 	if err != nil {
 		return nil, err
@@ -153,9 +159,18 @@ func (s *SolanaSecretsBackend) pathWalletWrite(ctx context.Context, req *logical
 		return logical.ErrorResponse("wallet already exists"), nil
 	}
 
-	priv, err := solana.NewRandomPrivateKey()
-	if err != nil {
-		return nil, fmt.Errorf("failed to generate keypair: %w", err)
+	var priv solana.PrivateKey
+
+	if ok && privateKey != "" {
+		priv, err = solana.PrivateKeyFromBase58(privateKey.(string))
+		if err != nil {
+			return logical.ErrorResponse("invalid private key"), nil
+		}
+	} else {
+		priv, err = solana.NewRandomPrivateKey()
+		if err != nil {
+			return nil, fmt.Errorf("failed to generate keypair: %w", err)
+		}
 	}
 
 	entry := &WalletEntry{

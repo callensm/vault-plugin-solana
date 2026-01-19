@@ -166,7 +166,7 @@ func (s *SolanaSecretsBackend) pathWalletVerifyMessageSignature(ctx context.Cont
 
 	return &logical.Response{
 		Data: map[string]any{
-			"ok": ok,
+			"verified": ok,
 		},
 	}, nil
 }
