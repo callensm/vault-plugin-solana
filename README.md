@@ -2,7 +2,7 @@
 
 This repository contains Vault plugin backends for both authentication and secrets engine functionality for Solana wallet keypairs.
 
-## Usage
+## Downloads
 
 The binaries and associated SHA256 sums for both plugin backends are prebuilt and uploaded in the repository releases for easy access and downloading. You can alternative build from source for your specific environment as well.
 
@@ -13,7 +13,9 @@ The binaries and associated SHA256 sums for both plugin backends are prebuilt an
 > $ xattr -d com.apple.quarantine vault-plugin-<TYPE>-solana
 > ```
 
-### Auth
+## Auth Backend
+
+### Setup
 
 ```bash
 $ vault plugin register \
@@ -24,7 +26,35 @@ $ vault plugin register \
 $ vault auth enable -path=solana vault-plugin-auth-solana
 ```
 
-### Secrets
+### Usage
+
+Authenticating with Vault using Solana offchain message verification is a 3 step process.
+
+#### 1. Generate a random message/nonce to sign
+
+```bash
+$ MESSAGE=$(vault write -format=json auth/<MOUNT>/nonce public_key="<PUBKEY>" | jq -r .data.nonce)
+```
+
+#### 2. Sign the message with your keypair
+
+```bash
+$ SIGNATURE=$(solana sign-offchain-message --output json $MESSAGE)
+```
+
+#### 3. Login and verify with Vault
+
+```bash
+$ vault write auth/<MOUNT>/login public_key="<PUBKEY>" signature="$SIGNATURE"
+```
+
+> [!NOTE]
+> This signature verification recreates the Solana V0 offchain message header preamble prior to verification
+> to ensure compatibility with the signing/message standard used by the Solana CLI and SDKs.
+
+## Secrets Backend
+
+### Setup
 
 ```bash
 $ vault plugin register \
