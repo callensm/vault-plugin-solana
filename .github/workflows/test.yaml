@@ -3,6 +3,9 @@ name: Tests
 on:
   push:
     branches: [master]
+    paths:
+      - ".github/workflows/test.yaml"
+      - "**.go"
 
 defaults:
   run:

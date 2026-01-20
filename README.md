@@ -1,4 +1,10 @@
-# Vault Plugin: Solana Auth and Secrets Backend
+<div align="center">
+    <h1>Vault Plugin - Solana</h1>
+    <p><strong>Offchain Message Auth and Keypair Secrets Backend</strong></p>
+    <p>
+        <a href="https://github.com/callensm/vault-plugin-solana/actions"><image alt="Tests" src="https://github.com/callensm/vault-plugin-solana/actions/workflows/test.yaml/badge.svg" /></a>
+    </p>
+</div>
 
 This repository contains Vault plugin backends for both authentication and secrets engine functionality for Solana wallet keypairs.
 
