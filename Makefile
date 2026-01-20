@@ -6,7 +6,7 @@ clean:
 	rm -rf build/ vendor/
 
 test:
-	go test -v -cover ./internal/...
+	go test -v ./internal/...
 
 vendor: clean
 	go mod tidy && go mod vendor
