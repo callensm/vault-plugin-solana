@@ -2,7 +2,9 @@
     <h1>Vault Plugin - Solana</h1>
     <p><strong>Offchain Message Auth and Keypair Secrets Backend</strong></p>
     <p>
+        <a href="https://github.com/callensm/vault-plugin-solana/releases"><image alt="Releases" src="https://img.shields.io/github/v/release/callensm/vault-plugin-solana?color=lightgreen" /></a>
         <a href="https://github.com/callensm/vault-plugin-solana/actions"><image alt="Tests" src="https://github.com/callensm/vault-plugin-solana/actions/workflows/test.yaml/badge.svg" /></a>
+        <a href="https://github.com/callensm/vault-plugin-solana/blob/master/LICENSE"><image alt="License" src="https://img.shields.io/badge/license-MPLv2.0-blue.svg" /></a>
     </p>
 </div>
 
